@@ -11,13 +11,17 @@ class ProgramsSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        program_links = response.css("div#programsbycredentialtextcontainer a::attr(href)").getall()
+        program_links = response.css("div#programsbycredentialtextcontainer a")
+        for link in program_links:
+            href = link.attrib.get("href")
+            text = link.css("::text").get()
+            if href and text:
+                yield {"url": href, "title": text}
 
-        for href in program_links:
-            url = urljoin(response.url, href)  # + "#suggestedsequencestext"
-            # print(url)
-            # raise SystemExit
-            yield scrapy.Request(url, callback=self.parse_program)
+            # url = urljoin(response.url, href)  # + "#suggestedsequencestext"
+            # # print(url)
+            # # raise SystemExit
+            # yield scrapy.Request(url, callback=self.parse_program)
 
     def parse_program(self, response):
         # Dummy function – replace with real logic later
