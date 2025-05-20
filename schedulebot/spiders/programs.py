@@ -7,9 +7,7 @@ class ProgramsSpider(scrapy.Spider):
     start_urls = ["https://coursecatalog.benedictine.edu/courses-instruction/#programstext"]
 
     def parse(self, response):
-        # Extract all links in the #programstext section
-        program_section = response.css('#programstext')
-        program_links = program_section.css('a::attr(href)').getall()
+        program_links = response.css('div#programsbycredentialtextcontainer a::attr(href)').getall()
 
         for href in program_links:
             url = urljoin(response.url, href)

@@ -1,2 +1,4 @@
 __pycache__
+/.scrapy/httpcache
 *.json
+*.html
